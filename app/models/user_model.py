@@ -1,11 +1,10 @@
 from uuid import uuid4
 
-from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
+from app.configs.database import db
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from werkzeug.security import check_password_hash, generate_password_hash
-
-from app.configs.database import db
+from marshmallow import Schema, fields
 
 
 class UserModel(db.Model):
@@ -19,6 +18,10 @@ class UserModel(db.Model):
     email = Column(String, nullable=False, unique=True)
     password_hash = Column(String, nullable=False)
 
+    @staticmethod
+    def serialize(self):
+        ...
+
     @property
     def password(self):
         raise AttributeError('Password is not accessible')
@@ -30,15 +33,14 @@ class UserModel(db.Model):
     def check_password(self, password_to_compare):
         return check_password_hash(self.password_hash, password_to_compare)
 
-
-class UserSchema(SQLAlchemySchema):
+class UserSchema(Schema):
     class Meta:
-        model = UserModel
-        load_instance = True
+        ordered = True
+        include_relationships = True
 
-    id = auto_field()
-    name = auto_field()
-    email = auto_field()
-    cpf = auto_field()
-    point = auto_field()
-    phone = auto_field()
+    name = fields.Str()
+    cpf = fields.Str()
+    point = fields.Integer()
+    phone = fields.Str()
+    email =  fields.Str()
+    address = fields.Nested('AddressSchema', many=True)
