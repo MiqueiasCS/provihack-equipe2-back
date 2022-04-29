@@ -19,7 +19,7 @@ class CompanyModel(db.Model):
     email= Column(String,nullable=False)
     password_hash = Column(String, nullable=False)
     ong=Column(String,nullable=False,default=True)
-    quantity_collect = Column(String, nullable=False,default=0)
+    quantity_collect = Column(Integer, nullable=False,default=0)
 
     @property
     def password(self):
