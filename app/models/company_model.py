@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from marshmallow_sqlalchemy import SQLAlchemySchema,auto_field
+from marshmallow import Schema, fields
 from sqlalchemy import Column, Integer,String
 from sqlalchemy.dialects.postgresql import UUID
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -19,7 +19,7 @@ class CompanyModel(db.Model):
     email= Column(String,nullable=False)
     password_hash = Column(String, nullable=False)
     ong=Column(String,nullable=False,default=True)
-    quantity_collect = Column(String, nullable=False,default=0)
+    quantity_collect = Column(Integer, nullable=False,default=0)
 
     @property
     def password(self):
@@ -32,15 +32,15 @@ class CompanyModel(db.Model):
     def check_password(self,password_to_compare):
         return check_password_hash(self.password_hash,password_to_compare)
 
-class CompanySchema(SQLAlchemySchema):
+class CompanySchema(Schema):
     class Meta:
-        model = CompanyModel
-        load_instance = True
+        ordered = True
+        include_relationships = True
 
-    id = auto_field()
-    name= auto_field()
-    email = auto_field()
-    cnpj = auto_field()
-    phone = auto_field()
-    quantity_collect= auto_field()
+    name= fields.Str()
+    cnpj= fields.Str()
+    phone = fields.Str()
+    email= fields.Str()
+    quantity_collect = fields.Integer()
+    address = fields.Nested('AddressSchema', many=True)
 
