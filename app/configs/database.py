@@ -9,4 +9,5 @@ def init_app(app: Flask):
     app.db = db
 
     from app.models.address_model import AddressModel
+    from app.models.company_model import CompanyModel
     from app.models.user_model import UserModel
