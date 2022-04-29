@@ -17,7 +17,9 @@ class AddressModel(db.Model):
     state = Column(String, nullable=False)
     cep = Column(String,nullable=False)
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'))
+    company_id = Column(UUID(as_uuid=True), ForeignKey('company.id'))
 
+    companies = relationship('CompanyModel', backref='address', uselist=False)
     users = relationship('UserModel', backref='address', uselist=False)
 
 
