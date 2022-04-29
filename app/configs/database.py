@@ -9,3 +9,4 @@ def init_app(app: Flask):
     app.db = db
 
     from app.models.user_model import UserModel
+    from app.models.residue_model import ResidueModel
