@@ -1,19 +1,15 @@
 from uuid import uuid4
-from dataclasses import dataclass
 
 from sqlalchemy import Column, Float, Boolean,String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, backref
-from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
+from marshmallow import Schema, fields
 
 from app.configs.database import db
 
 
-@dataclass
+
 class ResidueModel(db.Model):
-    type:str
-    quantity: float
-    collected: bool
 
     __tablename__ = 'residues'
 
@@ -26,24 +22,15 @@ class ResidueModel(db.Model):
 
     user = relationship("UserModel", backref=backref("residues",uselist=True),uselist=False)
 
-
-    def serialize(self):
-        return {
-            "id":self.id,
-            "type":self.type,
-            "quantity": self.quantity,
-            "collected": self.collected,
-            "user": self.user        }
-
     
-class ResidueSchema(SQLAlchemySchema):
+class ResidueSchema(Schema):
     class Meta:
         model = ResidueModel
         load_instance = True
 
-    id = auto_field()
-    type = auto_field()
-    quantity = auto_field()
-    collected = auto_field()
-    user = auto_field()
+    id = fields.Str()
+    type = fields.Str()
+    quantity = fields.Float()
+    collected = fields.Bool()
+    user = fields.Nested('UserSchema',only=("name", "email","address"),many=False)
     

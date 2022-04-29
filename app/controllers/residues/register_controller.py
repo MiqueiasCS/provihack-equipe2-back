@@ -4,11 +4,13 @@ from flask import current_app, jsonify, request
 from marshmallow import ValidationError
 from sqlalchemy.orm import Session
 
-from flask_jwt_extended.utils import get_jwt_identity
+from flask_jwt_extended import get_jwt_identity,jwt_required
 from app.models.user_model import UserModel
 from app.schemas.residue_schema import RegisterResidueSchema
 from app.models.residue_model import ResidueSchema
 
+
+@jwt_required()
 def register_residue():
     session: Session = current_app.db.session
     register_schema = RegisterResidueSchema()
@@ -27,9 +29,7 @@ def register_residue():
         session.add(residue_to_discard)
         session.commit()
 
-        # print(residue_to_discard.serialize())
-        return jsonify(residue_to_discard.serialize()),200
-        # return residue_schema.dump(residue_to_discard),HTTPStatus.OK
-
+        return residue_schema.dump(residue_to_discard),HTTPStatus.CREATED
+ 
     except ValidationError as err:
         return err.messages, HTTPStatus.BAD_REQUEST
