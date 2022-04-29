@@ -28,7 +28,7 @@ def upgrade():
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('password_hash', sa.String(), nullable=False),
     sa.Column('ong', sa.String(), nullable=False),
-    sa.Column('quantity_collect', sa.String(), nullable=False),
+    sa.Column('quantity_collect', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

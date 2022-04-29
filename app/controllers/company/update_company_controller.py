@@ -21,6 +21,10 @@ def update_company():
         for key,value in data.items():
             if key == 'email':
                 setattr(company,key,value)
+            if key == 'quantity_collect':
+                
+                new_value = company.quantity_collect + value
+                setattr(company,key,new_value)
             if key == 'password':
                 password_to_hash = data['password']
                 company.password = password_to_hash
