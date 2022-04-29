@@ -16,6 +16,8 @@ class AddressModel(db.Model):
     complement = Column(String, nullable=False)
     state = Column(String, nullable=False)
     cep = Column(String,nullable=False)
+    district = Column(String,nullable=False)
+    city = Column(String,nullable=False)
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'))
     company_id = Column(UUID(as_uuid=True), ForeignKey('company.id'))
 
@@ -29,6 +31,8 @@ class AddressSchema(Schema):
        include_fk = True
 
     street = fields.Str()
+    district = fields.Str()
+    city = fields.Str()
     number = fields.Integer()
     complement = fields.Str()
     state = fields.Str()
