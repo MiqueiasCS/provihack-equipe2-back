@@ -7,18 +7,28 @@ from sqlalchemy.orm import Session
 
 from app.models.user_model import UserSchema
 from app.schemas.user_schemas import RegisterUserSchema
+from app.schemas.address_schema import CreateAddressSchema
 
 
 def register_user():
     register_schema = RegisterUserSchema()
     user_schema = UserSchema()
+    address_schema = CreateAddressSchema()
 
     try:
         session: Session = current_app.db.session
         data = request.get_json()
+        address = {"address": data.pop('address')}
+
         new_user = register_schema.load(data)
+        user_address = address_schema.load(address)
 
         session.add(new_user)
+        session.commit()
+
+        user_address.user_id = new_user.id
+
+        session.add(user_address)
         session.commit()
 
         return user_schema.dump(new_user), HTTPStatus.CREATED
