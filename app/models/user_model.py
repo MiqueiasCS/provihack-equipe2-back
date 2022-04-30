@@ -43,4 +43,4 @@ class UserSchema(Schema):
     point = fields.Integer()
     phone = fields.Str()
     email =  fields.Str()
-    address = fields.Nested('AddressSchema', many=True)
+    address = fields.Nested('AddressSchema', many=False)

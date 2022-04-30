@@ -1,6 +1,4 @@
 from http import HTTPStatus
-from marshmallow import ValidationError
-from flask import jsonify
 
 from app.models.company_model import CompanyModel,CompanySchema
 
@@ -9,11 +7,7 @@ def get_all_company():
 
     company = CompanyModel.query.all()
     
-    output = []
-    for comp in company:
-        output.append(company_schema.dump(comp))
-
-    return jsonify(output), HTTPStatus.OK
+    return company_schema.dumps(company,many=True), HTTPStatus.OK
 
 # def get_district_company():
     #company_schema = CompanySchema()
