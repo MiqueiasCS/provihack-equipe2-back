@@ -1,5 +1,67 @@
 # provihack-equipe2
 
+## Instalação
+
+- Primeiro faça o fork e clone o repositório
+
+```
+git clone git@github.com:WillianSantosC/provihack-equipe2.git
+```
+
+- Crie o ambiente um [ambiente virtual em python](https://docs.python.org/pt-br/3/tutorial/venv.html)
+
+```
+$ python -m venv venv --upgrade-deps
+```
+
+- Entre no ambiente virtual
+
+```
+$ source venv/bin/activate
+```
+
+- Instale as dependencias do arquivo `requirements.txt`
+
+```
+$ pip install -r requirements.txt
+```
+
+- Crie um arquivo `.env` e configure as variáveis de ambiente seguindo o exemplo do arquivo `.env.example`:
+  - Crie um banco de dados no PostgreSQL e configure SQLALCHEMY_DATABASE_URI com as informações do banco;
+  - SECRET_KEY pode ser qualquer palavra. Ela será usada para criar o token;
+  - FLASK_ENV indica o ambiente de desenvolvimento (Environment).
+
+- Crie as tabelas no banco de dados através do comando:
+
+```
+$ flask db upgrade
+```
+
+- Inicie a aplicação local através do comando:
+
+```
+$ flask run
+```
+
+- A aplicação inicializará na rota http://127.0.0.1:5000/. Você deverá ver algo semelhante ao snippet logo abaixo no seu terminal:
+
+```
+ * Environment: development
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 380-161-167
+```
+
+## Tecnologias usadas
+
+- Python
+- Flask
+- SQALAlchemy
+- Postgresql
+
+
 # Rotas
 
 ## POST - Registrando Company
