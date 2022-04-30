@@ -1,8 +1,8 @@
 from flask import Flask
 
-from app.routes.user_routes import bp_user
 from app.routes.company_routes import bp_company
 from app.routes.residues_routes import bp_residues
+from app.routes.user_routes import bp_user
 
 
 def init_app(app: Flask):

@@ -1,10 +1,11 @@
 from http import HTTPStatus
 
-from flask import current_app, request,jsonify
-from flask_jwt_extended import  get_jwt_identity, jwt_required
+from flask import current_app, jsonify, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy.exc import IntegrityError
 
 from app.models.company_model import CompanyModel
+
 
 @jwt_required()
 def update_company():
@@ -14,17 +15,19 @@ def update_company():
     company = CompanyModel.query.filter_by(email=email).first()
 
     if 'cnpj' in data:
-         if data['cnpj']:
-            return {'error':'Não é permitido alterar CNPJ'}, HTTPStatus.UNAUTHORIZED
+        if data['cnpj']:
+            return {
+                'error': 'Não é permitido alterar CNPJ'
+            }, HTTPStatus.UNAUTHORIZED
     try:
 
-        for key,value in data.items():
+        for key, value in data.items():
             if key == 'email':
-                setattr(company,key,value)
+                setattr(company, key, value)
             if key == 'quantity_collect':
-                
+
                 new_value = company.quantity_collect + value
-                setattr(company,key,new_value)
+                setattr(company, key, new_value)
             if key == 'password':
                 password_to_hash = data['password']
                 company.password = password_to_hash
@@ -35,4 +38,4 @@ def update_company():
         return '', HTTPStatus.NO_CONTENT
     except IntegrityError as err:
         if 'psycopg2.errors.UniqueViolation' in str(err):
-            return jsonify(erro='Company já cadastrada!'),HTTPStatus.CONFLICT
+            return jsonify(erro='Company já cadastrada!'), HTTPStatus.CONFLICT

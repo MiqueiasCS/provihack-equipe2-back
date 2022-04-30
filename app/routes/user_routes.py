@@ -1,6 +1,5 @@
 from flask import Blueprint
 
-
 from app.controllers.user.delete_controller import delete_user
 from app.controllers.user.login_controller import login_user
 from app.controllers.user.retrieve_controllers import retrieve_users

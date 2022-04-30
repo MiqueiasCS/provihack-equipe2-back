@@ -6,8 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.models.user_model import UserSchema
-from app.schemas.user_schemas import RegisterUserSchema
 from app.schemas.address_schema import CreateAddressSchema
+from app.schemas.user_schemas import RegisterUserSchema
 
 
 def register_user():
@@ -18,7 +18,7 @@ def register_user():
     try:
         session: Session = current_app.db.session
         data = request.get_json()
-        address = {"address": data.pop('address')}
+        address = {'address': data.pop('address')}
 
         new_user = register_schema.load(data)
         user_address = address_schema.load(address)

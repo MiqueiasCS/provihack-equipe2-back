@@ -33,4 +33,4 @@ def update_user():
         return '', HTTPStatus.NO_CONTENT
     except IntegrityError as err:
         if 'psycopg2.errors.UniqueViolation' in str(err):
-            return jsonify(erro='Usuário já cadastrado!'),HTTPStatus.CONFLICT
+            return jsonify(erro='Usuário já cadastrado!'), HTTPStatus.CONFLICT
