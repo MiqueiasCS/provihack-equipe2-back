@@ -40,6 +40,7 @@ class ResidueSchema(Schema):
     quantity = fields.Int()
     collected = fields.Bool()
     date = fields.DateTime()
+    address = fields.Nested('AddressSchema',many=False)
     user = fields.Nested('UserSchema',only=("name", "email","address"),many=False)
 
 

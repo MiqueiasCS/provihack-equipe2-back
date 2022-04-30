@@ -4,7 +4,7 @@ from app.configs.database import db
 from marshmallow import Schema, fields
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship,backref
 
 
 class AddressModel(db.Model):
@@ -21,8 +21,10 @@ class AddressModel(db.Model):
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'))
     company_id = Column(UUID(as_uuid=True), ForeignKey('company.id'))
 
-    companies = relationship('CompanyModel', backref='address', uselist=False)
-    users = relationship('UserModel', backref='address', uselist=False)
+    companies = relationship('CompanyModel', backref=backref('address',uselist=False), uselist=False)
+    
+    users = relationship('UserModel', backref=backref('address',uselist=False), uselist=False)
+    
     residues = relationship('ResidueModel', backref="address", uselist=True)
 
 

@@ -42,5 +42,5 @@ class CompanySchema(Schema):
     phone = fields.Str()
     email= fields.Str()
     quantity_collect = fields.Integer()
-    address = fields.Nested('AddressSchema', many=True)
+    address = fields.Nested('AddressSchema', many=False)
 
