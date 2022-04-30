@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from flask import jsonify,current_app
+from flask import current_app
 
 from flask_jwt_extended import jwt_required,get_jwt_identity
 
@@ -22,29 +22,24 @@ def is_valid_uuid(uuid):
     return uuid_is_valid
 
 
-def update_company(residue,company_email,session):
+def update_company(residue,company_email):
     company:CompanyModel = CompanyModel.query.filter_by(email=company_email).first()
 
     if not company:
         raise Unauthorized_erro("Somente uma empresa cadastrada pode acessar esta rota")
 
     company.quantity_collect += residue.quantity
-    # session.add(company)
-    # session.commit()
 
     return company
 
 
-def update_residue(uuid,session):
+def update_residue(uuid):
     residue:ResidueModel = ResidueModel.query.get(uuid)
 
     if not residue:
         raise Not_found_item_error("O residuo não foi encontrado")
     
     residue.collected = True
-    
-    # session.add(residue)
-    # session.commit()
 
     return residue
 
@@ -57,9 +52,9 @@ def collect_residue(uuid):
     try:
         is_valid_uuid(uuid)
    
-        residue:ResidueModel = update_residue(uuid,session)
+        residue:ResidueModel = update_residue(uuid)
         
-        company:CompanyModel = update_company(residue,company_email,session)
+        company:CompanyModel = update_company(residue,company_email)
         
         residue.company_id = company.id
         
@@ -67,10 +62,6 @@ def collect_residue(uuid):
         session.add(company)
         session.commit()
 
-        # company:CompanyModel = CompanyModel.query.filter_by(email=company_email).first()
-
-        # company.quantity_collect += residue.quantity
-        # session.add(company)
         return "",HTTPStatus.OK
 
     except Invalid_uuid_error as err:
