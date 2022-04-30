@@ -28,7 +28,7 @@ def register_residue():
         address = data.get("address")
         
         if not address:
-            address = current_user.address[0]
+            address = current_user.address
         
         else:
             data.pop("address")
