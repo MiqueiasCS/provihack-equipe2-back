@@ -1,8 +1,8 @@
 """criando tabelas
 
-Revision ID: 880d7eebad72
+Revision ID: 72ddd240548a
 Revises: 
-Create Date: 2022-04-29 16:08:16.685586
+Create Date: 2022-04-29 19:55:45.646798
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '880d7eebad72'
+revision = '72ddd240548a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -60,10 +60,12 @@ def upgrade():
     op.create_table('residues',
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('type', sa.String(), nullable=False),
-    sa.Column('quantity', sa.Float(), nullable=False),
+    sa.Column('quantity', sa.Integer(), nullable=False),
     sa.Column('collected', sa.Boolean(), nullable=True),
     sa.Column('user_id', postgresql.UUID(as_uuid=True), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
+    sa.Column('company_id', postgresql.UUID(as_uuid=True), nullable=True),
+    sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

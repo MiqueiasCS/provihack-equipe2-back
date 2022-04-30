@@ -57,10 +57,12 @@ def collect_residue(uuid):
     try:
         is_valid_uuid(uuid)
    
-        residue = update_residue(uuid,session)
+        residue:ResidueModel = update_residue(uuid,session)
         
-        company = update_company(residue,company_email,session)
-
+        company:CompanyModel = update_company(residue,company_email,session)
+        
+        residue.company_id = company.id
+        
         session.add(residue)
         session.add(company)
         session.commit()

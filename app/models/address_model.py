@@ -23,6 +23,7 @@ class AddressModel(db.Model):
 
     companies = relationship('CompanyModel', backref='address', uselist=False)
     users = relationship('UserModel', backref='address', uselist=False)
+    residues = relationship('ResidueModel', backref="address", uselist=True)
 
 
 class AddressSchema(Schema):
