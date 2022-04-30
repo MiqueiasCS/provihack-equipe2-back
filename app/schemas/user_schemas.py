@@ -14,13 +14,13 @@ class RegisterUserSchema(Schema):
 
     @validates('phone')
     def validate_phone(self, value):
-        regex = r'(\(\d{2}\))(\d{5}\-\d{4})'
+        regex = r'(\d{2})(\d{5}\-?\d{4})'
 
         phone = re.fullmatch(regex, value)
 
         if not phone:
             raise ValidationError(
-                'Telefone obrigatoriamente no formato (xx)xxxxx-xxxx'
+                'Telefone obrigatoriamente no formato xxxxxxx-xxxx'
             )
 
     @validates('cpf')
