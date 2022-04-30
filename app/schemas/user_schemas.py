@@ -13,7 +13,7 @@ class RegisterUserSchema(Schema):
     email = fields.Email(required=True)
 
     @validates('phone')
-    def validate_phone(self,value):
+    def validate_phone(self, value):
         regex = r'(\(\d{2}\))(\d{5}\-\d{4})'
 
         phone = re.fullmatch(regex, value)
@@ -24,7 +24,7 @@ class RegisterUserSchema(Schema):
             )
 
     @validates('cpf')
-    def validate_cpf(self,value):
+    def validate_cpf(self, value):
         regex = r'[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}'
 
         cpf = re.fullmatch(regex, value)

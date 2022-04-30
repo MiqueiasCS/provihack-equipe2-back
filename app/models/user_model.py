@@ -1,10 +1,11 @@
 from uuid import uuid4
 
-from app.configs.database import db
+from marshmallow import Schema, fields
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from werkzeug.security import check_password_hash, generate_password_hash
-from marshmallow import Schema, fields
+
+from app.configs.database import db
 
 
 class UserModel(db.Model):
@@ -33,6 +34,7 @@ class UserModel(db.Model):
     def check_password(self, password_to_compare):
         return check_password_hash(self.password_hash, password_to_compare)
 
+
 class UserSchema(Schema):
     class Meta:
         ordered = True
@@ -42,5 +44,5 @@ class UserSchema(Schema):
     cpf = fields.Str()
     point = fields.Integer()
     phone = fields.Str()
-    email =  fields.Str()
+    email = fields.Str()
     address = fields.Nested('AddressSchema', many=False)

@@ -5,6 +5,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from app.models.company_model import CompanyModel
 
+
 @jwt_required()
 def delete_company():
     session = current_app.db.session
