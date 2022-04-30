@@ -37,6 +37,7 @@ class CompanySchema(Schema):
         ordered = True
         include_relationships = True
 
+    id=fields.Str()
     name= fields.Str()
     cnpj= fields.Str()
     phone = fields.Str()

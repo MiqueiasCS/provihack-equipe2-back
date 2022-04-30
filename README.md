@@ -2,6 +2,234 @@
 
 # Rotas
 
+## POST - Registrando Company
+
+Registro de uma empresa que irá receber a coleta seletiva.
+
+### Endpoint: /company/register:
+
+Request
+
+```
+{
+	"name" : "coleta",
+  "cnpj": "10.000.000/0001-14",
+  "phone":"(xx)xxxxx-xxxx",
+  "password":"1234",
+  "email":"coleta@coleta.com.br",
+	"address":{
+        "cep":  "0000",
+        "street": "rua d",
+        "complement": "travessa h",
+        "state": "BA",
+				"district":"casa",
+				"city":"baia",
+        "number": "10"
+    }
+}
+```
+
+Response
+-status 201 CREATED
+
+```
+{
+  "id": "38c9e1f6-fe6c-497e-a2e7-767ceb270989",
+  "name": "coleta",
+  "cnpj": "10.000.000/0001-14",
+  "phone": "(xx)xxxxx-xxxx",
+  "email": "coleta@coleta.com.br",
+  "quantity_collect": 0,
+  "address": {
+    "street": "rua d",
+    "district": "casa",
+    "city": "baia",
+    "number": 10,
+    "complement": "travessa h",
+    "state": "BA",
+    "cep": "0000"
+  }
+}
+```
+
+- status 400 BAD REQUEST
+
+  ```
+  <!-- Caso não seja passado uma chave obrigatória -->
+  {
+      "cnpj": [
+          "Missing cnpj for required field."
+      ]
+  }
+  ```
+
+  ```
+  <!-- Caso seja enviado uma chave com valor inválido -->
+  {
+   "phone": [
+  "Not a valid string."
+  ]
+  }
+  ```
+
+## GET - Listar Empresas
+
+Retorna uma lista com todas as empresas registradas. Esta rota aceita query params para filtrar por bairro.
+
+### Endpoint: /company
+
+### Endpoint com query params: /company?district=travessa
+
+Response de todas as empresas
+-status 200 OK
+
+```
+[
+  {
+    "id": "727f8630-c078-49a1-854c-f6a73054ba6e",
+    "name": "coleta",
+    "cnpj": "00.000.000/0001-14",
+    "phone": "(xx)xxxxx-xxxx",
+    "email": "coleta@coleta.com.br",
+    "quantity_collect": 0,
+    "address": {
+      "street": "rua b",
+      "district": "travessa",
+      "city": "baia",
+      "number": 0,
+      "complement": "travessa",
+      "state": "BA",
+      "cep": "000"
+    }
+  },
+
+  {
+    "id": "38c9e1f6-fe6c-497e-a2e7-767ceb270989",
+    "name": "coleta",
+    "cnpj": "10.000.000/0001-14",
+    "phone": "(xx)xxxxx-xxxx",
+    "email": "coleta@coleta.com.br",
+    "quantity_collect": 0,
+    "address": {
+      "street": "rua d",
+      "district": "casa",
+      "city": "baia",
+      "number": 10,
+      "complement": "travessa h",
+      "state": "BA",
+      "cep": "0000"
+    }
+  }
+]
+```
+
+Response de uma empresa em que foi utlizado o query params
+-status 200 OK
+
+```
+[
+  {
+    "id": "727f8630-c078-49a1-854c-f6a73054ba6e",
+    "name": "coleta",
+    "cnpj": "00.000.000/0001-14",
+    "phone": "(xx)xxxxx-xxxx",
+    "email": "coleta@coleta.com.br",
+    "quantity_collect": 0,
+    "address": {
+      "street": "rua b",
+      "district": "travessa",
+      "city": "baia",
+      "number": 0,
+      "complement": "travessa",
+      "state": "BA",
+      "cep": "000"
+    }
+  },
+  {
+    "id": "99fd50c0-90ad-49ab-b533-26b3211cdd9f",
+    "name": "coleta",
+    "cnpj": "10.000.000/0001-14",
+    "phone": "(xx)xxxxx-xxxx",
+    "email": "coleta@coleta.com.br",
+    "quantity_collect": 0,
+    "address": {
+      "street": "rua d",
+      "district": "travessa",
+      "city": "baia",
+      "number": 10,
+      "complement": "travessa h",
+      "state": "BA",
+      "cep": "0000"
+    }
+  }
+]
+```
+
+## GET - Listar uma Empresas
+
+Retorna uma empresas filtrada pelo id passado na url.
+
+### Endpoint: /company/<id>:
+
+Response
+-status 200 OK
+
+```
+{
+  "id": "727f8630-c078-49a1-854c-f6a73054ba6e",
+  "name": "coleta",
+  "cnpj": "00.000.000/0001-14",
+  "phone": "(xx)xxxxx-xxxx",
+  "email": "coleta@coleta.com.br",
+  "quantity_collect": 0,
+  "address": {
+    "street": "rua b",
+    "district": "travessa",
+    "city": "baia",
+    "number": 0,
+    "complement": "travessa",
+    "state": "BA",
+    "cep": "000"
+  }
+}
+```
+
+## PUT - Atualizando o update da empresa
+
+Pode atualizar o email, senha e acrescentar quantidade de residuo coletado.
+
+### Endpoint: /company
+
+- Necessário autenticação - bearer token
+
+Request
+-body
+
+```
+{
+{
+  "password":"1234",
+  "email":"coleta@coleta.com.br",
+	"quantity_collect":1
+}
+}
+```
+
+Response
+-status 204
+
+```
+No budy returned for response
+```
+
+-status 401 UNAUTHORIZED
+
+```
+{
+  "error": "Não é permitido alterar CNPJ"
+}
+```
+
 ## POST - Registrando Resíduos
 
 Registra um resíduo que o usuário pretende descartar. Deve ser passado o tipo de resíduo, a quantidade, o endereço onde este resíduo está localizado e a data em que ele estará disponível para coleta.
