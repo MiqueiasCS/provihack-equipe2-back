@@ -1,5 +1,5 @@
 from os import getenv
-
+import datetime
 from flask import Flask
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
@@ -16,6 +16,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = getenv('SQLALCHEMY_DATABASE_URI')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JSON_SORT_KEYS'] = False
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(minutes=60)
 
     database.init_app(app)
     migrations.init_app(app)
